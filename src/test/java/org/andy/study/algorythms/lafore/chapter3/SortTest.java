@@ -18,15 +18,24 @@ public class SortTest {
     }
 
     @Test(timeout=100000)
+    public void bubbleSortEx1() {
+        sort(new BubbleSortEx1(), false);
+    }
+    
+    @Test(timeout=100000)
     public void selectSort() {
         sort(new SelectionSort(), false);
         sort(new SelectionSort(), true);
     }
 
-    @Test(timeout=100000)
+    @Test(timeout=1000000)
     public void insertSort() {
         sort(new InsertionSort(), false);
         sort(new InsertionSort(), true);
+        Assert.assertArrayEquals(new int[]{}, new InsertionSort().dedup(new int[]{}));
+        Assert.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, new InsertionSort().dedup(new int[]{1, 2, 3, 4, 5}));
+        Assert.assertArrayEquals(new int[]{1, 2, 4}, new InsertionSort().dedup(new int[]{1, 2, 2, 4, 4}));
+        Assert.assertArrayEquals(new int[]{1}, new InsertionSort().dedup(new int[]{1, 1, 1, 1, 1}));
     }
 
     private void sort(Sort algorythm, boolean reverse) {
