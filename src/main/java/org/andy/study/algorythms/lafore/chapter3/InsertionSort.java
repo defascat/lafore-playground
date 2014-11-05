@@ -46,14 +46,20 @@ public class InsertionSort extends Sort {
     }
     
     private int[] sortData(int[] array, Compare compare) {
+        int swaps = 0, compares = 0;
         for(int i = 1; i < array.length; i++) {
             int next = array[i];
             int j = i;
-            while(j > 0 && compare.compare(array, j - 1, next)) {
+            while(j > 0 && ++compares > 0 && compare.compare(array, j - 1, next) ) {
                 array[j] = array[j - 1];
+                swaps++;
                 j--;
             }
+            swaps++;
             array[j] = next;
+        }
+        if(array.length > 100) {
+            System.out.println(String.format("%d -> Swaps: %d; Compares: %d", array.length, swaps, compares));
         }
         return array;
     }

@@ -21,6 +21,11 @@ public class SortTest {
     public void bubbleSortEx1() {
         sort(new BubbleSortEx1(), false);
     }
+
+    @Test(timeout=1000000)
+    public void oddEvenSort() {
+        sort(new OddEvenSort(), false);
+    }
     
     @Test(timeout=100000)
     public void selectSort() {
@@ -36,6 +41,9 @@ public class SortTest {
         Assert.assertArrayEquals(new int[]{1, 2, 3, 4, 5}, new InsertionSort().dedup(new int[]{1, 2, 3, 4, 5}));
         Assert.assertArrayEquals(new int[]{1, 2, 4}, new InsertionSort().dedup(new int[]{1, 2, 2, 4, 4}));
         Assert.assertArrayEquals(new int[]{1}, new InsertionSort().dedup(new int[]{1, 1, 1, 1, 1}));
+        
+        for(int i = 1; i < 5; i++)
+            verifySort(new InsertionSort(), false, new Random().ints((long) (1000 * Math.pow(2, i))).toArray());
     }
 
     private void sort(Sort algorythm, boolean reverse) {
