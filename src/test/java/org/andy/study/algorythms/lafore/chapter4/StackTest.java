@@ -10,7 +10,7 @@ import org.junit.Test;
  *
  * @author andy
  */
-public class StackQueueTest {
+public class StackTest {
     @Test
     public void testStack() throws IllegalAccessException {
         testStackOrder(0);
