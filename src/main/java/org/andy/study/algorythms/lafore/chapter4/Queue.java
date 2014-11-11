@@ -5,17 +5,17 @@ package org.andy.study.algorythms.lafore.chapter4;
  * @author andy
  */
 public class Queue<T> {
-    private Object[] array = new Object[10];
-    private int start;
-    private int end;
-    private int dataCounter;
+    protected Object[] array = new Object[10];
+    protected int start;
+    protected int end;
+    protected int dataCounter;
     
     public void insert(T data) throws IllegalStateException {
         if(end == start && dataCounter > 0) {
             throw new IllegalStateException();
         }
         array[end] = data;
-        end = (end + 1) % array.length;
+        end = adjustToSize(end + 1);
         dataCounter++;
     }
     
@@ -24,7 +24,8 @@ public class Queue<T> {
             throw new IllegalStateException();
         }
         T curValue = (T) array[start];
-        start = (start + 1) % array.length;
+        array[start] = -1;
+        start = adjustToSize(start + 1);
         dataCounter--;
         return curValue;
     }
@@ -38,5 +39,9 @@ public class Queue<T> {
     
     public boolean isEmpty() {
         return start == end && dataCounter == 0;
+    }
+
+    protected int adjustToSize(int i) {
+        return i % array.length;
     }
 }
