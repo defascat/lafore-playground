@@ -7,6 +7,7 @@ package org.andy.study.algorythms.lafore.chapter4;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -47,6 +48,28 @@ public class Postfix {
         return queue.toArray(new String[]{});
     }    
 
+    public int calculate() {
+        String[] result = process();
+        final Stack<String> stack = new Stack<>();
+        for(int i = result.length - 1; i >= 0; i--) {
+            stack.push(result[i]);
+        }
+        Stack<String> tmpStack = new Stack<>();
+        while(!stack.isEmpty()) {
+            final String str = stack.pop();
+            if(isSign(str)) {
+                int resultInt = calculate(str, tmpStack.pop(), tmpStack.pop());
+                stack.push("" + resultInt);
+                while(!tmpStack.isEmpty()) {
+                    stack.push(tmpStack.pop());
+                }
+            } else {
+                tmpStack.push(str);
+            }
+        }
+        return Integer.parseInt(tmpStack.pop());
+    }
+    
     private void pushToStack(String str, Stack<String> operations) {
         if(!str.equals(")")) {
             operations.push(str);
@@ -86,5 +109,17 @@ public class Postfix {
     
     private boolean isBracket(String str) {
         return str.equals("(") || str.equals(")");
+    }
+
+    private int calculate(String str, String str1, String str2) {
+        int i1 = Integer.parseInt(str1);
+        int i2 = Integer.parseInt(str2);
+        switch(str) {
+            case "+": return i2 + i1;
+            case "-": return i2 - i1;
+            case "*": return i2 * i1;
+            case "/": return i2 / i1;
+        }
+        throw new IllegalArgumentException("Unsupported operation " + str);
     }
 }
