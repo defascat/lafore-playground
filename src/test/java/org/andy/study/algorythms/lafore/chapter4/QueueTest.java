@@ -16,9 +16,9 @@ public class QueueTest {
 
     @Test
     public void testQueue() {
-        testQueueData();
-        testQueueData(1);
-        testQueueData(1, 3, 5);
+        testQueueData("[]");
+        testQueueData("[1]",1);
+        testQueueData("[1,3,5]",1, 3, 5);
     }
 
     @Test
@@ -32,6 +32,7 @@ public class QueueTest {
             }
             assertFalse(queue.isEmpty());
         }
+        assertEquals("[7,8,9,10,11,12,13,14,15]", queue.print());
     }
 
     @Test
@@ -52,12 +53,14 @@ public class QueueTest {
         }
     }
 
-    private void testQueueData(int... data) {
+    private void testQueueData(String print, int... data) {
         Queue<Integer> queue = new Queue<>();
         for (int e : data) {
             queue.insert(e);
             assertFalse(queue.isEmpty());
         }
+        
+        assertEquals(print, queue.print());
         
         for (int e : data) {
             assertEquals(e, (int) queue.peek());

@@ -44,4 +44,15 @@ public class Queue<T> {
     protected int adjustToSize(int i) {
         return i % array.length;
     }
+    
+    public String print() {
+        String result = "";
+        for(int i = start; i < end + (start > end ? array.length : 0); i++) {
+            if(!result.isEmpty()) {
+                result += ",";
+            }
+            result += array[adjustToSize(i)];
+        }
+        return "[" + result + "]";
+    } 
 }
