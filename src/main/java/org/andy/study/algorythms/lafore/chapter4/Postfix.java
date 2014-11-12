@@ -69,7 +69,22 @@ public class Postfix {
         }
         return Integer.parseInt(tmpStack.pop());
     }
-    
+
+    public int calculateFast() {
+        String[] result = process();
+        final Stack<Integer> stack = new Stack<>();
+        for(String str : result) {
+            if(isSign(str)) {
+                final Integer v1 = stack.pop();
+                final Integer v2 = stack.pop();
+                stack.push(calculate(str, v2, v1));
+            } else {
+                stack.push(Integer.parseInt(str));
+            }
+        }
+        return stack.pop();
+    }
+
     private void pushToStack(String str, Stack<String> operations) {
         if(!str.equals(")")) {
             operations.push(str);
@@ -112,8 +127,10 @@ public class Postfix {
     }
 
     private int calculate(String str, String str1, String str2) {
-        int i1 = Integer.parseInt(str1);
-        int i2 = Integer.parseInt(str2);
+        return calculate(str, Integer.parseInt(str2), Integer.parseInt(str1));
+    }
+
+    private int calculate(String str, int i2, int i1) throws IllegalArgumentException {
         switch(str) {
             case "+": return i2 + i1;
             case "-": return i2 - i1;

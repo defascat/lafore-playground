@@ -46,7 +46,7 @@ public class PostfixTest {
 
     private void testCalculation(String infix, int expectedResult) {
         String[] data = infix.split("");
-        int result = new Postfix(data).calculate();
+        int result = new Postfix(data).calculateFast();
         Assert.assertEquals(expectedResult, result);
     }
 }
