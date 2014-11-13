@@ -11,18 +11,15 @@ public class Queue<T> {
     protected int dataCounter;
     
     public void insert(T data) throws IllegalStateException {
-        if(end == start && dataCounter > 0) {
-            throw new IllegalStateException();
-        }
+        verifyNotFull();
         array[end] = data;
         end = adjustToSize(end + 1);
         dataCounter++;
     }
     
     public T remove() throws IllegalStateException {
-        if(start == end  && dataCounter == 0) {
-            throw new IllegalStateException();
-        }
+        verifyNonEmpty();
+        
         T curValue = (T) array[start];
         array[start] = -1;
         start = adjustToSize(start + 1);
@@ -31,9 +28,7 @@ public class Queue<T> {
     }
     
     public T peek() throws IllegalStateException {
-        if(start == end && dataCounter == 0) {
-            throw new IllegalStateException();
-        }
+        verifyNonEmpty();
         return (T) array[start];
     }
     
@@ -42,7 +37,7 @@ public class Queue<T> {
     }
 
     protected int adjustToSize(int i) {
-        return i % array.length;
+        return (i + array.length) % array.length;
     }
     
     public String print() {
@@ -55,4 +50,16 @@ public class Queue<T> {
         }
         return "[" + result + "]";
     } 
+
+    protected void verifyNonEmpty() throws IllegalStateException {
+        if (start == end && dataCounter == 0) {
+            throw new IllegalStateException();
+        }
+    }
+
+    protected void verifyNotFull() throws IllegalStateException {
+        if (end == start && dataCounter > 0) {
+            throw new IllegalStateException();
+        }
+    }
 }

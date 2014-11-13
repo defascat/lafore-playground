@@ -22,7 +22,7 @@ public class PriorityQueueTest {
 
     @Test
     public void testCyclicSuccess() throws IllegalStateException {
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        Queue<Integer> queue = createQueue();
         assertTrue(queue.isEmpty());
         for (int i = 15; i >= 0; i--) {
             queue.insert(i);
@@ -33,8 +33,12 @@ public class PriorityQueueTest {
         }
     }
 
+    protected Queue<Integer> createQueue() {
+        return new PriorityQueue<>();
+    }
+
     private void testQueueData(int... data) {
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        Queue<Integer> queue = createQueue();
         for (int e : data) {
             queue.insert(e);
             assertFalse(queue.isEmpty());
