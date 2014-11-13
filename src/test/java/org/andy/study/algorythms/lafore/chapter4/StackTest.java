@@ -19,15 +19,15 @@ public class StackTest {
         try {
             testStackOrder(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
             fail();
-        } catch(IllegalAccessException e) {
+        } catch(IllegalAccessException | IllegalStateException e) {
         }
         
         try {
-            final Stack stack = new Stack();
+            final Stack stack = createIntStack();
             assertTrue(stack.isEmpty());
             stack.pop();
             fail();
-        } catch(IllegalAccessException e) {
+        } catch(IllegalAccessException | IllegalStateException e) {
         }
     }
 
@@ -47,7 +47,7 @@ public class StackTest {
     }
 
     private void testStackOrder(int... items) throws IllegalAccessException {
-        final Stack<Integer> stack = new Stack<>();
+        final Stack<Integer> stack = createIntStack();
         for (int i = 0; i < items.length; i++) {
             final int item = items[i];
             stack.push(item);
@@ -63,11 +63,11 @@ public class StackTest {
     }
 
     private void testWordReversed(String original, String expected) throws IllegalAccessException {
-        Stack<Character> stack = new Stack<>();
+        Stack<Character> stack = createCharStack();
         original.chars().forEachOrdered(ch -> {
             try {
                stack.push((char) ch);
-            } catch (IllegalAccessException ex) {
+            } catch (IllegalAccessException | IllegalStateException ex) {
                 fail();
             }
         });
@@ -80,7 +80,7 @@ public class StackTest {
     }
 
     private void testBrackets(String str, boolean valid) throws IllegalAccessException {
-        Stack<Character> stack = new Stack<>();
+        Stack<Character> stack = createCharStack();
         boolean isValid = true;
         try {
             for(int i = 0; i < str.length(); i++) {
@@ -120,4 +120,13 @@ public class StackTest {
         }
     
     }
+
+    protected Stack<Integer> createIntStack() {
+        return new Stack<>();
+    }
+
+    protected Stack<Character> createCharStack() {
+        return new Stack<>();
+    }
+
 }
