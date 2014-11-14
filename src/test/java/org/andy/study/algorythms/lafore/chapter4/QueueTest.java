@@ -23,7 +23,7 @@ public class QueueTest {
 
     @Test
     public void testCyclicSuccess() throws IllegalStateException {
-        Queue<Integer> queue = new Queue<>();
+        Queue<Integer> queue = createIntQueue();
         assertTrue(queue.isEmpty());
         for (int i = 1; i <= 15; i++) {
             queue.insert(i);
@@ -37,7 +37,7 @@ public class QueueTest {
 
     @Test
     public void testCyclicFailure() {
-        Queue<Integer> queue = new Queue<>();
+        Queue<Integer> queue = createIntQueue();
         assertTrue(queue.isEmpty());
         try {
             for (int i = 1; i <= 15; i++) {
@@ -54,7 +54,7 @@ public class QueueTest {
     }
 
     private void testQueueData(String print, int... data) {
-        Queue<Integer> queue = new Queue<>();
+        Queue<Integer> queue = createIntQueue();
         for (int e : data) {
             queue.insert(e);
             assertFalse(queue.isEmpty());
@@ -67,5 +67,9 @@ public class QueueTest {
             assertEquals(e, (int) queue.remove());
         }
         assertTrue(queue.isEmpty());
+    }
+
+    protected Queue<Integer> createIntQueue() {
+        return new Queue<>();
     }
 }

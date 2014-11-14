@@ -9,24 +9,56 @@ import java.util.Objects;
 public class LinkList<T> {
 
     private Link<T> head;
+    private Link<T> tail;
 
     public void insertFirst(T item) {
         final Link<T> newItem = new Link<>(item);
-        newItem.setNext(head);
         if(head != null) {
+            newItem.setNext(head);
             head.setPrevious(newItem);
+        } else {
+            tail = newItem;
         }
         head = newItem;
     }
     
-    public void deleteFirst() {
-        if(isEmpty()) {
-            throw new IllegalStateException();
+    public void insertLast(T item) {
+        final Link<T> newItem = new Link<>(item);
+        if(tail != null) {
+            newItem.setPrevious(tail);
+            tail.setNext(newItem);
+        } else {
+            head = newItem;
         }
+        tail = newItem;
+    }
+    
+    public T deleteFirst() {
+        T val = getFirst();
         head = head.getNext();
         if (head != null) {
             head.setPrevious(null);
         }
+        if(head == null) {
+            tail = null;
+        }
+        return val;
+    }
+
+    public T getFirst() throws IllegalStateException {
+        if(isEmpty()) {
+            throw new IllegalStateException();
+        }
+        T val = head.getData();
+        return val;
+    }
+
+    public T getLast() throws IllegalStateException {
+        if(isEmpty()) {
+            throw new IllegalStateException();
+        }
+        T val = tail.getData();
+        return val;
     }
 
     public boolean remove(T item) {
@@ -61,5 +93,19 @@ public class LinkList<T> {
     
     public boolean isEmpty() {
         return head == null;
-    }    
+    }
+    
+    public String print() {
+        String result = "";
+        Link<T> link = head;
+        while(link != null) {
+            if(!result.isEmpty()) {
+                result += ",";
+            }
+            result += link.getData();
+            link = link.getNext();
+        }
+        return "[" + result + "]";
+    } 
+
 }
