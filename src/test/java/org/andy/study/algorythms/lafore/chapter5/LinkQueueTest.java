@@ -19,5 +19,4 @@ public class LinkQueueTest extends QueueTest {
     @Override
     public void testCyclicFailure() {
     }
-    
 }

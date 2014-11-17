@@ -1,5 +1,7 @@
 package org.andy.study.algorythms.lafore.chapter5;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -8,8 +10,8 @@ import java.util.Objects;
  */
 public class LinkList<T> {
 
-    private Link<T> head;
-    private Link<T> tail;
+    protected Link<T> head;
+    protected Link<T> tail;
 
     public void insertFirst(T item) {
         final Link<T> newItem = new Link<>(item);
@@ -107,5 +109,42 @@ public class LinkList<T> {
         }
         return "[" + result + "]";
     } 
+    
+    public Iterator<T> iterator() {
+        return new ListTerator();
+    }
 
+    class ListTerator implements Iterator<T> {
+        private Link<T> current = null;
+        private boolean endReached = isEmpty();
+        @Override
+        public boolean hasNext() {
+            if(endReached) {
+                return false;
+            }
+            
+            if(current != null) {
+                return current.getNext() != null;
+            }
+            return !isEmpty();
+        }
+
+        @Override
+        public T next() {
+            if(endReached) {
+                throw new NoSuchElementException();
+            }
+            
+            if(current == null) {
+                current = head;
+            } else {
+                current = current.getNext();
+            }
+            
+            if(current.getNext() == null) {
+                endReached = true;
+            }
+            return current.getData();
+        }
+    }
 }

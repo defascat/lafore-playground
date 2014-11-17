@@ -1,5 +1,7 @@
 package org.andy.study.algorythms.lafore.chapter5;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,5 +42,51 @@ public class LinkListTest {
             Assert.assertEquals(-1, list.indexOf(itemToRemove));
         }
         Assert.assertTrue(list.isEmpty());
+    }
+    
+        
+    @Test
+    public void testIterator() {
+        LinkList<Integer> queue = new LinkList<>();
+        
+        Iterator<Integer> iterator = queue.iterator();
+        assertEmpty(iterator);
+        assertFailure(iterator);
+        
+        queue.insertFirst(1);
+        iterator = queue.iterator();
+        assertNotEmpty(iterator);
+        assertData(1, iterator);
+        assertEmpty(iterator);
+        assertFailure(iterator);
+        
+        queue.insertLast(2);
+        iterator = queue.iterator();
+        assertNotEmpty(iterator);
+        assertData(1, iterator);
+        assertNotEmpty(iterator);
+        assertData(2, iterator);
+        assertEmpty(iterator);
+        assertFailure(iterator);
+    }
+
+    public void assertFailure(final Iterator<Integer> iterator) {
+        try {
+            iterator.next();
+            Assert.fail();
+        } catch(NoSuchElementException e) {
+        }
+    }
+
+    private void assertData(int i, final Iterator<Integer> iterator) {
+        Assert.assertEquals(i, (int) iterator.next());
+    }
+    
+    private void assertNotEmpty(final Iterator<Integer> iterator) {
+        Assert.assertTrue(iterator.hasNext());
+    }
+    
+    private void assertEmpty(final Iterator<Integer> iterator) {
+        Assert.assertFalse(iterator.hasNext());
     }
 }
